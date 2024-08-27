@@ -1,8 +1,12 @@
 from flask import Flask, jsonify
+from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from app.middleware.error_middleware import handle_404_error, handle_500_error, handle_generic_exception
 from app.middleware.logging_middleware import before_request, after_request
+from app.models import db
 import os
+from app.config import config
+from flask_migrate import Migrate
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -15,6 +19,14 @@ if not os.path.exists(UPLOAD_FOLDER):
 app = Flask(__name__) 
 CORS(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Database configuration
+app.config.from_object(config)
+
+db.init_app(app)
+jwt = JWTManager(app)
+migrate = Migrate(app, db)
+
 
 # Register logging middleware
 app.before_request(before_request)
