@@ -1,6 +1,6 @@
-from flask import request, jsonify
+from flask import request, jsonify, make_response
 from app.services.auth_service import AuthService
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, set_access_cookies, set_refresh_cookies
 from app.middleware.auth_middleware import role_required
 from app.models import RoleEnum
 
@@ -25,7 +25,10 @@ class AuthController:
         password = data.get('password')
         auth_tokens = AuthService.authenticate_user(email, password)
         if auth_tokens:
-            return jsonify(auth_tokens), 200
+            response = make_response(jsonify(auth_tokens))
+            set_refresh_cookies(response, auth_tokens['refresh_token'])
+            set_access_cookies(response, auth_tokens['access_token'])
+            return response
         return jsonify({"message": "Invalid credentials"}), 401
 
     @staticmethod
