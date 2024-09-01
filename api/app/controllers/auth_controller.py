@@ -1,6 +1,6 @@
 from flask import request, jsonify, make_response
 from app.services.auth_service import AuthService
-from flask_jwt_extended import jwt_required, get_jwt_identity, set_access_cookies, set_refresh_cookies
+from flask_jwt_extended import jwt_required, get_jwt_identity, set_access_cookies, set_refresh_cookies, unset_refresh_cookies, unset_access_cookies
 from app.middleware.auth_middleware import role_required
 from app.models import RoleEnum
 
@@ -12,6 +12,13 @@ class AuthController:
         email = data.get('email')
         password = data.get('password')
         roles = data.get('roles', [])
+
+        if not email or not password:
+            return jsonify({"error": "Email and password are required"}), 400
+        
+        if not roles:
+            return jsonify({"error": "User must have at least one role"}), 400
+        
         try:
             user = AuthService.register_user(email, password, roles)
             return jsonify({"message": "User registered successfully"}), 201
@@ -23,13 +30,17 @@ class AuthController:
         data = request.get_json()
         email = data.get('email')
         password = data.get('password')
-        auth_tokens = AuthService.authenticate_user(email, password)
-        if auth_tokens:
-            response = make_response(jsonify(auth_tokens))
-            set_refresh_cookies(response, auth_tokens['refresh_token'])
-            set_access_cookies(response, auth_tokens['access_token'])
-            return response
-        return jsonify({"message": "Invalid credentials"}), 401
+        accountType = data.get('accountType')
+        try:
+            auth_tokens = AuthService.authenticate_user(email, password, accountType)
+            if auth_tokens:
+                response = make_response(jsonify(auth_tokens))
+                set_refresh_cookies(response, auth_tokens['refresh_token'])
+                set_access_cookies(response, auth_tokens['access_token'])
+                return response
+            return jsonify({"message": "Invalid credentials"}), 401
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
 
     @staticmethod
     @jwt_required(refresh=True)
@@ -43,3 +54,25 @@ class AuthController:
     @role_required(RoleEnum.ADMIN)
     def admin_dashboard():
         return jsonify({"message": "Welcome, admin!"}), 200
+    
+    @staticmethod
+    @jwt_required()
+    def get_user():
+        user_id = get_jwt_identity()
+        try:
+            user = AuthService.get_user_by_id(user_id)
+            if user:
+                return jsonify(user), 200
+            return jsonify({"message": "User not found"}), 404
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
+        
+    
+    @staticmethod
+    @jwt_required()
+    def logout():
+        print("inside")
+        response = make_response(jsonify({"message": "Logged out successfully"}))
+        unset_access_cookies(response)
+        unset_refresh_cookies(response)
+        return response

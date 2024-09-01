@@ -36,9 +36,21 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-
+    
+    def check_role(self, role_name):
+        return role_name in [role.name.value for role in self.roles]
+    
     def __repr__(self):
         return f"<User {self.email}>"
+    
+    def to_dict(self):
+        return {
+            'id': str(self.id),
+            'email': self.email,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'roles': [role.name.value for role in self.roles]
+        }
 
 class UserRoles(db.Model):
     __tablename__ = 'user_roles'

@@ -18,3 +18,11 @@ def refresh():
 @auth_bp.route('/admin', methods=['GET'])
 def admin_dashboard():
     return AuthController().admin_dashboard()
+
+@auth_bp.route('/user', methods=['GET'])
+def get_user():
+    return AuthController().get_user()
+
+@auth_bp.route('/logout', methods=['POST'])
+def logout():
+    return AuthController().logout()
