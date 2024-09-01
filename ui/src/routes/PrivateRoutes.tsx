@@ -1,5 +1,9 @@
 // import { useNavigate } from "react-router-dom";
 
+import { useGetUser } from "@/hooks/query/useAuthentication";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 export default function PrivateRoutes({
   children,
   allowedUserRole,
@@ -8,8 +12,22 @@ export default function PrivateRoutes({
   allowedUserRole: string;
 }) {
   console.log("PrivateRoutes", allowedUserRole);
+  const navigate = useNavigate();
+  let userHasRequiredRole = true;
+  const { data, isLoading } = useGetUser();
 
-  //   const navigate = useNavigate();
+  if (allowedUserRole) {
+    userHasRequiredRole = allowedUserRole.includes(data?.data?.roles)
+      ? true
+      : false;
+  }
+
+  useEffect(() => {
+    if (isLoading) return;
+    if (!userHasRequiredRole) {
+      navigate("/login");
+    }
+  }, [data, isLoading, navigate, userHasRequiredRole]);
 
   return children;
 }
