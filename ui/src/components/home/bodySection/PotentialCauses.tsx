@@ -30,7 +30,7 @@ export default function PotentialCauses() {
       <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
         Potential Causes
       </h2>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:max-w-5xl mx-auto">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {causes.map((cause, index) => (
           <AnimatedCard
             key={index}

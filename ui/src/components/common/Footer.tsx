@@ -2,14 +2,15 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import { FC } from "react";
 import { footerNavItems } from "./navItem";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface FooterProps {}
 
 const Footer: FC<FooterProps> = ({}) => {
+  const location = useLocation();
   return (
     <>
-      <footer className="py-12 md:py-24">
+      <footer className="py-6 md:py-6">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col md:flex-row md:justify-between">
             <div className="text-center md:text-left">
@@ -26,7 +27,11 @@ const Footer: FC<FooterProps> = ({}) => {
                   <li key={item.name}>
                     <Link
                       to={item.to}
-                      className="text-gray-600 hover:text-purple-600 transition-colors"
+                      className={`text-gray-600  transition-colors ${
+                        location?.pathname === item.to
+                          ? "text-purple-600"
+                          : "text-gray-800 hover:text-purple-600"
+                      }`}
                     >
                       {item.name}
                     </Link>

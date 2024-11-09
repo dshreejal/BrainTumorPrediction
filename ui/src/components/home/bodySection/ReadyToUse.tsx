@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export default function ReadyToUse() {
   return (
@@ -10,12 +11,17 @@ export default function ReadyToUse() {
           </h2>
           <p className="mx-auto max-w-[700px] text-purple-100 md:text-xl/relaxed">
             Our AI-powered system can assist in early detection and diagnosis.
-            Login to access the prediction tool.
+            CLick below to access the prediction tool.
           </p>
         </div>
-        <Button className="bg-white text-purple-600 hover:bg-purple-50 hover:text-purple-700">
+        {/* <Button className="bg-white text-purple-600 hover:bg-purple-50 hover:text-purple-700">
           Login to Predict
-        </Button>
+        </Button> */}
+        <Link to="/predict">
+          <Button className="bg-white text-purple-600 hover:bg-purple-50 hover:text-purple-700">
+            Predict Now
+          </Button>
+        </Link>
       </div>
     </div>
   );

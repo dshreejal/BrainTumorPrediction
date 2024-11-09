@@ -37,7 +37,7 @@ export default function TreatmentOptions() {
       <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8 text-center text-indigo-800">
         Treatment Options
       </h2>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:max-w-6xl mx-auto">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {treatments.map((treatment, index) => (
           <AnimatedCard
             key={index}

@@ -20,7 +20,7 @@ const BodySection: FC<BodySectionProps> = ({}) => {
           <div className="flex flex-col items-center space-y-4 text-center">
             <div className="space-y-2">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-purple-900">
-                Advanced Brain Tumor Prediction
+                Brain Tumor Prediction
               </h1>
               <p className="mx-auto max-w-[700px] text-purple-800 md:text-xl">
                 Empowering healthcare professionals with AI-driven insights for
@@ -31,12 +31,12 @@ const BodySection: FC<BodySectionProps> = ({}) => {
               <Button className="bg-purple-600 text-white hover:bg-purple-700">
                 Learn More
               </Button>
-              <Button
+              {/* <Button
                 variant="outline"
                 className="text-purple-600 border-purple-600 hover:bg-purple-100"
               >
                 Watch Demo
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>

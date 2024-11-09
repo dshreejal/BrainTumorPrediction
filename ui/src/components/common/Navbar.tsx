@@ -66,9 +66,9 @@ const Navbar: FC<NavbarProps> = ({ user }) => {
           </>
         ) : (
           <>
-            <Link to="/login">
+            <Link to="/predict">
               <Button className="bg-purple-600 text-white hover:bg-purple-700">
-                Login
+                Predict
               </Button>
             </Link>
           </>
@@ -96,9 +96,14 @@ const Navbar: FC<NavbarProps> = ({ user }) => {
                 {item.name}
               </Link>
             ))}
-            <Button className="bg-purple-600 text-white hover:bg-purple-700 mt-4">
-              Login
-            </Button>
+            {/* <Button className="bg-purple-600 text-white hover:bg-purple-700 mt-4">
+              Predict
+            </Button> */}
+            <Link to="/predict">
+              <Button className="bg-purple-600 text-white hover:bg-purple-700">
+                Predict
+              </Button>
+            </Link>
           </nav>
         </SheetContent>
       </Sheet>
