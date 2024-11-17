@@ -9,7 +9,7 @@ export const useLoginUser = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
-    (requestData: { email: string; password: string; accountType: string }) =>
+    (requestData: { email: string; password: string }) =>
       handleRequest(() => axiosInstance.post("/auth/login", requestData)),
     {
       onSuccess: () => {
@@ -32,6 +32,12 @@ export const useLogoutUser = () => {
         queryClient.invalidateQueries("user");
         toast.success("Logout successful");
         storage.clear();
+      },
+      onError(error: any) {
+        console.log(error);
+        if (error.response.status === 401) {
+          storage.clear();
+        }
       },
     }
   );

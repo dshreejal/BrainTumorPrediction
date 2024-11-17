@@ -22,7 +22,7 @@ import * as storage from "@/utils/storage";
 import { storageKey } from "@/constants/storageKey";
 import { useApi } from "@/hooks/useApi";
 import axiosInstance from "@/lib/axiosInstance";
-import { PROTECTED_ROUTES } from "@/constants/routes";
+import { PROTECTED_ROUTES, PUBLIC_ROUTES } from "@/constants/routes";
 
 const formSchema = z.object({
   email: z
@@ -38,10 +38,10 @@ const formSchema = z.object({
 });
 
 interface LoginFormProps {
-  userType: "patient" | "doctor";
+  // userType: "patient" | "doctor";
 }
 
-const LoginForm: FC<LoginFormProps> = ({ userType }) => {
+const LoginForm: FC<LoginFormProps> = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -58,10 +58,8 @@ const LoginForm: FC<LoginFormProps> = ({ userType }) => {
   const { handleRequest } = useApi();
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log({ ...data, accountType: userType });
-
     try {
-      const res = await loginUser({ ...data, accountType: userType });
+      const res = await loginUser({ ...data });
       if (res?.data?.access_token) {
         storage.set(storageKey.TOKEN, res.data.access_token);
       }
@@ -72,7 +70,7 @@ const LoginForm: FC<LoginFormProps> = ({ userType }) => {
       if (response?.data) {
         storage.set(storageKey.USER_PROFILE, response.data);
       }
-      await navigate(PROTECTED_ROUTES.DASHBOARD);
+      await navigate(PUBLIC_ROUTES.PREDICT);
     } catch (error) {
       console.log(error);
       storage.clear();
@@ -92,7 +90,7 @@ const LoginForm: FC<LoginFormProps> = ({ userType }) => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor={`${userType}-email`}>Email</FormLabel>
+                <FormLabel htmlFor={`email`}>Email</FormLabel>
                 <FormControl>
                   <Input
                     icon={CiMail}
@@ -113,7 +111,7 @@ const LoginForm: FC<LoginFormProps> = ({ userType }) => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor={`${userType}-password`}>Password</FormLabel>
+                <FormLabel htmlFor={`password`}>Password</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input

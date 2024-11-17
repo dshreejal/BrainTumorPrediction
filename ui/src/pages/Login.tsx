@@ -19,18 +19,18 @@ interface LoginPageProps {}
 
 const LoginPage: FC<LoginPageProps> = ({}) => {
   return (
-    <main className="flex-1 flex items-center justify-center p-4">
+    <main className="flex-1 flex items-center justify-center p-4 min-h-[90vh]">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">
             Login
           </CardTitle>
           <CardDescription className="text-center">
-            Choose your account type and enter your credentials
+            Welcome back! Login to your account to continue
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="patient" className="w-full">
+          {/* <Tabs defaultValue="patient" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger
                 value="patient"
@@ -47,13 +47,12 @@ const LoginPage: FC<LoginPageProps> = ({}) => {
                 Doctor
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="patient">
-              <LoginForm userType="patient" />
-            </TabsContent>
+            <TabsContent value="patient"></TabsContent>
             <TabsContent value="doctor">
               <LoginForm userType="doctor" />
             </TabsContent>
-          </Tabs>
+          </Tabs> */}
+          <LoginForm />
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
           <div className="text-sm text-center text-gray-600">
