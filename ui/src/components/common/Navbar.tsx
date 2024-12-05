@@ -55,6 +55,12 @@ const Navbar: FC<NavbarProps> = ({ user }) => {
             {item.name}
           </Link>
         ))}
+        {/* <Link to="/predict">
+          <Button className="bg-purple-600 text-white hover:bg-purple-700">
+            Predict
+          </Button>
+        </Link> */}
+
         {isAuthenticated ? (
           <>
             <Button
@@ -66,9 +72,9 @@ const Navbar: FC<NavbarProps> = ({ user }) => {
           </>
         ) : (
           <>
-            <Link to="/predict">
+            <Link to="/login">
               <Button className="bg-purple-600 text-white hover:bg-purple-700">
-                Predict
+                Login
               </Button>
             </Link>
           </>
@@ -96,9 +102,6 @@ const Navbar: FC<NavbarProps> = ({ user }) => {
                 {item.name}
               </Link>
             ))}
-            {/* <Button className="bg-purple-600 text-white hover:bg-purple-700 mt-4">
-              Predict
-            </Button> */}
             <Link to="/predict">
               <Button className="bg-purple-600 text-white hover:bg-purple-700">
                 Predict

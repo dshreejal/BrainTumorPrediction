@@ -10,15 +10,23 @@ from flask_migrate import Migrate
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
+print (basedir)
+
 UPLOAD_FOLDER = os.path.join(basedir, 'uploads')
+
+MODEL_FOLDER=os.path.join(basedir,'app', 'prediction', 'models')
 
 # if the uploads folder does not exist, create it
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
+     
+if(not os.path.exists(MODEL_FOLDER)):
+    os.makedirs(MODEL_FOLDER)
 
 app = Flask(__name__) 
 CORS(app,supports_credentials=True, resources={r"/*": {"origins": "http://localhost:5173"}})
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MODEL_FOLDER'] = MODEL_FOLDER
 
 # Database configuration
 app.config.from_object(config)

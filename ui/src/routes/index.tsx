@@ -1,7 +1,7 @@
 import { Navigate, useRoutes } from "react-router-dom";
 import NotFound from "@/pages/NotFound";
 
-import { protectedRoutes } from "./ProtectedRoutes.tsx";
+// import { protectedRoutes } from "./ProtectedRoutes.tsx";
 import { publicRoutes } from "./PublicRoutes.tsx";
 
 export default function AppRoutes() {
@@ -11,7 +11,7 @@ export default function AppRoutes() {
   ];
 
   // const routes = auth ? protectedRoutes : publicRoutes;
-  const routes = [...publicRoutes, ...protectedRoutes];
+  const routes = [...publicRoutes];
 
   const element = useRoutes([...routes, ...commonRoutes]);
 

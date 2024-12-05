@@ -6,5 +6,5 @@ export const PUBLIC_ROUTES = {
 };
 
 export const PROTECTED_ROUTES = {
-  DASHBOARD: "/dashboard",
+  // DASHBOARD: "/dashboard",
 };
