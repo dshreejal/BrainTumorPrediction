@@ -1,8 +1,29 @@
-import React, { FC, useState, useCallback } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+import { FC, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { InfoIcon, UploadIcon, XIcon } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import {
+  InfoIcon,
+  UploadIcon,
+  XIcon,
+  BrainIcon,
+  ActivityIcon,
+} from "lucide-react";
 import { useDropzone } from "react-dropzone";
+import { usePredict } from "@/hooks/query/usePredict";
+import toast from "react-hot-toast";
+import { useAuth } from "@/hooks/useAuth";
+import ReportDialog from "@/components/predict/ReportDialog";
 
 interface PredictPageProps {}
 
@@ -10,7 +31,12 @@ const PredictPage: FC<PredictPageProps> = () => {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [prediction, setPrediction] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [selectedModel, setSelectedModel] = useState("vgg16");
+  const [image, setImage] = useState<string | null>(null);
+
+  const isAuthenticated = useAuth();
+
+  const { mutateAsync, isLoading } = usePredict();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles && acceptedFiles.length > 0) {
@@ -31,33 +57,44 @@ const PredictPage: FC<PredictPageProps> = () => {
 
   const handlePredict = async () => {
     if (!file) return;
+    setPrediction(null);
 
-    setIsLoading(true);
-    setPrediction(null); // Clear previous prediction
+    try {
+      const res = await mutateAsync({ file, model_name: selectedModel });
 
-    // Simulating API call
-    setTimeout(() => {
-      setPrediction(
-        "Sample prediction result is displayed here. One of the following: Meningioma, Glioma, Pituitary Tumor, or No Tumor."
-      );
-      setIsLoading(false);
-    }, 2000);
+      if (res?.data?.image) {
+        setImage(res?.data?.image);
+      }
 
-    // Actual API call would look something like this:
-    // try {
-    //   const formData = new FormData();
-    //   formData.append('image', file);
-    //   const response = await fetch('/api/predict', {
-    //     method: 'POST',
-    //     body: formData,
-    //   });
-    //   const data = await response.json();
-    //   setPrediction(data.prediction);
-    // } catch (error) {
-    //   console.error('Prediction error:', error);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+      switch (res?.data?.prediction) {
+        case "glioma":
+          setPrediction(
+            "Glioma detected. Please consult a doctor for further diagnosis."
+          );
+          break;
+        case "meningioma":
+          setPrediction(
+            "Meningioma detected. Please consult a doctor for further diagnosis."
+          );
+          break;
+        case "pituitary":
+          setPrediction(
+            "Pituitary Tumor detected. Please consult a doctor for further diagnosis."
+          );
+          break;
+        case "notumor":
+          setPrediction("No Tumor detected. You are healthy!");
+          break;
+        default:
+          setPrediction("Unable to determine. Please consult a doctor.");
+      }
+    } catch (error: any) {
+      if (error.response?.data?.message) {
+        toast.error(error.response?.data?.message);
+      } else {
+        toast.error("An error occurred during prediction. Please try again.");
+      }
+    }
   };
 
   const removeFile = () => {
@@ -80,62 +117,127 @@ const PredictPage: FC<PredictPageProps> = () => {
         </AlertDescription>
       </Alert>
 
-      <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <div
-          {...getRootProps()}
-          className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors ${
-            isDragActive
-              ? "border-purple-600 bg-purple-50"
-              : "border-gray-300 hover:border-purple-400"
-          }`}
-        >
-          <input {...getInputProps()} />
-          {preview ? (
-            <div className="flex flex-col items-center">
-              <img
-                src={preview}
-                alt="Uploaded MRI"
-                className="max-h-64 mb-4 rounded"
-              />
-              <p className="text-sm text-gray-600 mb-2">{file?.name}</p>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeFile();
-                }}
-              >
-                <XIcon className="mr-2 h-4 w-4" />
-                Remove
-              </Button>
-            </div>
-          ) : (
-            <div className="py-12">
-              <UploadIcon className="mx-auto h-16 w-16 text-gray-400" />
-              <p className="mt-4 text-lg text-gray-600">
-                Drag and drop your MRI image here, or click to select a file
-              </p>
-            </div>
-          )}
-        </div>
-        <Button
-          onClick={handlePredict}
-          disabled={!file || isLoading}
-          className="w-full mt-6 bg-purple-600 text-white hover:bg-purple-700 py-3 text-lg"
-        >
-          {isLoading ? "Predicting..." : "Predict"}
-        </Button>
-      </div>
-
-      {!isLoading && prediction && (
-        <div className="mt-8 max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+      <div className="grid md:grid-cols-2 gap-6 min-h-96">
+        {/* Left Column - Image Upload */}
+        <div className="bg-white p-6 rounded-lg shadow-md min-h-[450px]">
           <h2 className="text-xl font-semibold mb-4 text-purple-600">
-            Prediction Result
+            Upload MRI Image
           </h2>
-          <p className="text-gray-700">{prediction}</p>
+          <div
+            {...getRootProps()}
+            className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
+              isDragActive
+                ? "border-purple-600 bg-purple-50"
+                : "border-gray-300 hover:border-purple-400"
+            }`}
+          >
+            <input {...getInputProps()} />
+            {preview ? (
+              <div className="flex flex-col items-center">
+                <img
+                  src={preview}
+                  alt="Uploaded MRI"
+                  className="max-h-64 mb-4 rounded"
+                />
+                <p className="text-sm text-gray-600 mb-2">{file?.name}</p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFile();
+                  }}
+                >
+                  <XIcon className="mr-2 h-4 w-4" />
+                  Remove
+                </Button>
+              </div>
+            ) : (
+              <div className="py-8">
+                <UploadIcon className="mx-auto h-36 w-12 text-gray-400" />
+                <p className="mt-4 text-gray-600">
+                  Drag and drop your MRI image here, or click to select a file
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-      )}
+
+        {/* Right Column - Model Selection */}
+        <div className="flex flex-col">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4 text-purple-600">
+              Select Model
+            </h2>
+            <RadioGroup
+              value={selectedModel}
+              onValueChange={(value) => {
+                setSelectedModel(value);
+                if (prediction) {
+                  setPrediction(null);
+                }
+              }}
+              className="flex justify-between items-center"
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="vgg16" id="vgg16" />
+                <Label htmlFor="vgg16" className="flex flex-col">
+                  <div className="flex items-center gap-2">
+                    <BrainIcon className="h-4 w-4" />
+                    <span className="font-medium">VGG16</span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">
+                    Accuracy: 97.8%
+                  </span>
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="resnet50" id="resnet50" />
+                <Label htmlFor="resnet50" className="flex flex-col">
+                  <div className="flex items-center gap-2">
+                    <ActivityIcon className="h-4 w-4" />
+                    <span className="font-medium">ResNet50</span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">
+                    Accuracy: 98.2%
+                  </span>
+                </Label>
+              </div>
+            </RadioGroup>
+
+            <Button
+              onClick={handlePredict}
+              disabled={!file || isLoading}
+              className="w-full mt-6 bg-purple-600 text-white hover:bg-purple-700 py-6 text-lg"
+            >
+              {isLoading ? "Predicting..." : "Predict"}
+            </Button>
+          </div>
+          <div>
+            {!isLoading && prediction && (
+              <Card className="mt-8">
+                <CardHeader>
+                  <CardTitle>Prediction Result</CardTitle>
+                  <CardDescription>
+                    Using {selectedModel.toUpperCase()} model
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700">{prediction}</p>
+                </CardContent>
+                <div className="mx-2">
+                  {isAuthenticated && (
+                    <ReportDialog
+                      predictionGraph={image}
+                      selectedModel={selectedModel}
+                    />
+                  )}
+                </div>
+              </Card>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

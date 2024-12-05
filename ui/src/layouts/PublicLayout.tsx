@@ -8,9 +8,17 @@ interface PublicLayoutProps {
 
 const PublicLayout: FC<PublicLayoutProps> = ({ children }) => {
   return (
+    // <div className="flex flex-col min-h-screen bg-gradient-to-b from-purple-50 to-indigo-100">
+    //   <Navbar />
+    //   <main className="flex-1">{children}</main>
+    //   <Footer />
+    // </div>
+
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-purple-50 to-indigo-100">
       <Navbar />
-      <main className="flex-1">{children}</main>
+      <main className="flex-grow flex flex-col justify-center py-8 px-4 sm:px-6 lg:px-8">
+        {children}
+      </main>
       <Footer />
     </div>
   );

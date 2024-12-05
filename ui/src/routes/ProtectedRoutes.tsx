@@ -15,16 +15,15 @@ const App = () => {
   );
 };
 
-export const protectedRoutes = [
-  {
-    path: PROTECTED_ROUTES.DASHBOARD,
-    element: (
-      <>
-        <ProtectedLayout>
-          <App />
-        </ProtectedLayout>
-        <div>hello</div>
-      </>
-    ),
-  },
-];
+// export const protectedRoutes = [
+//   {
+//     path: PROTECTED_ROUTES.DASHBOARD,
+//     element: (
+//       <>
+//         <ProtectedLayout>
+//           <App />
+//         </ProtectedLayout>
+//       </>
+//     ),
+//   },
+// ];
