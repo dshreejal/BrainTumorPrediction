@@ -1,8 +1,6 @@
 from flask import request, jsonify, make_response
 from app.services.auth_service import AuthService
 from flask_jwt_extended import jwt_required, get_jwt_identity, set_access_cookies, set_refresh_cookies, unset_refresh_cookies, unset_access_cookies
-from app.middleware.auth_middleware import role_required
-from app.models import RoleEnum
 
 class AuthController:
 
@@ -30,9 +28,8 @@ class AuthController:
         data = request.get_json()
         email = data.get('email')
         password = data.get('password')
-        accountType = data.get('accountType')
         try:
-            auth_tokens = AuthService.authenticate_user(email, password, accountType)
+            auth_tokens = AuthService.authenticate_user(email, password)
             if auth_tokens:
                 response = make_response(jsonify(auth_tokens))
                 set_refresh_cookies(response, auth_tokens['refresh_token'])
@@ -49,12 +46,7 @@ class AuthController:
         new_token = AuthService.refresh_user_token(user_id)
         return jsonify({"access_token": new_token}), 200
 
-    @staticmethod
-    @jwt_required()
-    @role_required(RoleEnum.ADMIN)
-    def admin_dashboard():
-        return jsonify({"message": "Welcome, admin!"}), 200
-    
+
     @staticmethod
     @jwt_required()
     def get_user():
