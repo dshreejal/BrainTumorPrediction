@@ -15,7 +15,11 @@ class AuthController:
             return jsonify({"error": "Email is required"}), 400
         
         try:
-            user = AuthService.register_user(email)
+            try:
+                user = AuthService.register_user(email)
+            except ValueError as e:
+                return jsonify({"error": str(e)}), 400
+            
             if not user:
                 return jsonify({"error": "User creation failed"}), 500
         
