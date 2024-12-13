@@ -7,6 +7,9 @@ from app.models import db
 import os
 from app.config import config
 from flask_migrate import Migrate
+from dotenv import load_dotenv
+
+load_dotenv()
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
