@@ -4,22 +4,26 @@ from sqlalchemy import func
 
 class AuthService:
     @staticmethod
-    def register_user(email, password, role_names):
-        existing_user = User.query.filter_by(email=email.lower()).first()
+    def register_user(email):
+        email = email.lower()
+
+        # Check if user already exists
+        existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             raise ValueError("A user with the same email already exists.")
-        
+
         user = User(email=email)
-        user.set_password(password)
-        # for role_name in role_names:
-        #     role = Role.query.filter_by(name=RoleEnum(role_name)).first()
-        #     if role:
-        #         user.roles.append(role)
-        #     else:
-        #         raise ValueError(f"Role '{role_name}' does not exist.")
-        db.session.add(user)
-        db.session.commit()
-        return user
+        
+        try:
+            # Add to DB and commit transaction
+            db.session.add(user)
+            db.session.commit()
+            print(f"User created with email: {user.email}") 
+            return user
+        except Exception as e:
+            # Rollback in case of error
+            db.session.rollback()
+            raise ValueError(f"Error creating user: {str(e)}")
 
     @staticmethod
     def authenticate_user(email, password):
@@ -29,16 +33,12 @@ class AuthService:
         print(user)
         if not user:
             raise ValueError("User not found.")
+        
+        # if there is no password set, return None
+        if not user.password_hash:
+            raise ValueError("User has not set a password yet.")
+        
         if user and user.check_password(password):
-            # if user.check_role(accountType):
-            #     print("AccountType", accountType)
-            #     roles = [role.name.value for role in user.roles]
-            #     access_token = create_access_token(identity=str(user.id), additional_claims={
-            #         'email': user.email, 'roles':roles})
-            #     refresh_token = create_refresh_token(identity=str(user.id))
-            #     return {'access_token': access_token, 'refresh_token': refresh_token}
-            # return None
-            
                 access_token = create_access_token(identity=str(user.id), additional_claims={
                     'email': user.email})
                 refresh_token = create_refresh_token(identity=str(user.id))
@@ -55,3 +55,14 @@ class AuthService:
         if user:
             return user.to_dict()
         return None
+    
+    @staticmethod
+    def cleanup_user(email):
+        user = User.query.filter_by(email=email).first()
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+            
+            print(f"User with email {email} deleted. Error occured during sending email")
+            return True
+        return False

@@ -4,6 +4,7 @@ from sqlalchemy import DateTime, func, Integer
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import pytz
+import os
 
 print("Importing models")
 db = SQLAlchemy()
@@ -12,10 +13,10 @@ class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     email = db.Column(db.String(150), unique=True, nullable=False)
-    password_hash = db.Column(db.Text, nullable=False)
+    password_hash = db.Column(db.Text, nullable=True)
     created_at = db.Column(DateTime(timezone=True), server_default=func.now())
     updated_at = db.Column(DateTime(timezone=True), onupdate=func.now())
-    predictions_remaining = db.Column(Integer, nullable=False, default=5)  # Number of predictions remaining
+    predictions_remaining = db.Column(Integer, nullable=False, default=(os.getenv('LOGGED_IN_USER_DEFAULT_PREDICTIONS', 5))) # Number of predictions remaining
     limit_reached_at = db.Column(DateTime(timezone=True), nullable=True)   # Timestamp of when the limit was reached
 
     def set_password(self, password):
@@ -28,7 +29,7 @@ class User(db.Model):
 
     def reset_predictions(self):
         """Resets the user's prediction count and clears the limit reached timestamp."""
-        self.predictions_remaining = 5  # Need to change this to take the limit from the config .TODO
+        self.predictions_remaining = int(os.getenv('LOGGED_IN_USER_DEFAULT_PREDICTIONS', 5))
         self.limit_reached_at = None
 
     def update_limit_reached(self, current_time):
