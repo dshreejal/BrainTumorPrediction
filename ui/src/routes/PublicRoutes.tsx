@@ -7,6 +7,9 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import PredictPage from "@/pages/Predict";
 import RegisterPage from "@/pages/Register";
+import ForgotPassword from "@/pages/ForgotPassword";
+import ResetPassword from "@/pages/ResetPassword";
+import SetupPassword from "@/pages/SetupPassword";
 
 const ProtectedRoute = ({ children }: { children: React.JSX.Element }) => {
   const isAuthenticated = useAuth();
@@ -51,6 +54,30 @@ export const publicRoutes = [
         element: (
           <ProtectedRoute>
             <RegisterPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: PUBLIC_ROUTES.FORGOT_PASSWORD,
+        element: (
+          <ProtectedRoute>
+            <ForgotPassword />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: PUBLIC_ROUTES.RESET_PASSWORD,
+        element: (
+          <ProtectedRoute>
+            <ResetPassword />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: PUBLIC_ROUTES.SETUP_PASSWORD,
+        element: (
+          <ProtectedRoute>
+            <SetupPassword />
           </ProtectedRoute>
         ),
       },

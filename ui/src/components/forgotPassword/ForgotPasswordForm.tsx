@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { BiLoaderAlt } from "react-icons/bi";
-import { useRegisterUser } from "@/hooks/query/useAuthentication";
+import { useForgotPassword } from "@/hooks/query/useAuthentication";
 import toast from "react-hot-toast";
 import { CiMail } from "react-icons/ci";
 
@@ -28,9 +28,9 @@ const formSchema = z.object({
     .max(50),
 });
 
-interface RegisterFormProps {}
+interface ForgotPasswordFormProps {}
 
-const RegisterForm: FC<RegisterFormProps> = () => {
+const ForgotPasswordForm: FC<ForgotPasswordFormProps> = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,11 +38,11 @@ const RegisterForm: FC<RegisterFormProps> = () => {
     },
   });
 
-  const { mutateAsync: registerUser, isLoading } = useRegisterUser();
+  const { mutateAsync: forgotPassword, isLoading } = useForgotPassword();
 
   async function onSubmit(formData: z.infer<typeof formSchema>) {
     try {
-      const res = await registerUser({ ...formData });
+      const res = await forgotPassword({ ...formData });
       toast.success(res?.data?.message);
     } catch (error: any) {
       console.log(error);
@@ -82,10 +82,10 @@ const RegisterForm: FC<RegisterFormProps> = () => {
           type="submit"
           className="w-full bg-purple-600 text-white hover:bg-purple-700"
         >
-          {!isLoading ? "Register" : ""}
+          {!isLoading ? "Send Mail" : ""}
           {isLoading && (
             <>
-              <p className="p-2">Creating User</p>
+              <p className="p-2">Sending Mail</p>
               <BiLoaderAlt className="mr-2 h-4 w-4 animate-spin" />
             </>
           )}
@@ -95,4 +95,4 @@ const RegisterForm: FC<RegisterFormProps> = () => {
   );
 };
 
-export default RegisterForm;
+export default ForgotPasswordForm;

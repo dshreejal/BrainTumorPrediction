@@ -7,14 +7,18 @@ import * as storage from "@/utils/storage";
 export const useRegisterUser = () => {
   const { handleRequest } = useApi();
 
-  const mutation = useMutation(
-    (requestData: { email: string }) =>
-      handleRequest(() => axiosInstance.post("/auth/register", requestData)),
-    {
-      onSuccess: () => {
-        toast.success("Registration successful");
-      },
-    }
+  const mutation = useMutation((requestData: { email: string }) =>
+    handleRequest(() => axiosInstance.post("/auth/register", requestData))
+  );
+
+  return { ...mutation };
+};
+
+export const useVerifyToken = () => {
+  const { handleRequest } = useApi();
+
+  const mutation = useMutation((requestData: { token: string }) =>
+    handleRequest(() => axiosInstance.post("/auth/verify-token", requestData))
   );
 
   return { ...mutation };
@@ -56,6 +60,52 @@ export const useLogoutUser = () => {
         }
       },
     }
+  );
+
+  return { ...mutation };
+};
+
+export const useSetupPassword = () => {
+  const { handleRequest } = useApi();
+
+  const mutation = useMutation(
+    (requestData: {
+      token: string;
+      password: string;
+      confirmPassword: string;
+    }) =>
+      handleRequest(() =>
+        axiosInstance.post(`/auth/setup-password`, requestData)
+      )
+  );
+
+  return { ...mutation };
+};
+
+export const useForgotPassword = () => {
+  const { handleRequest } = useApi();
+
+  const mutation = useMutation((requestData: { email: string }) =>
+    handleRequest(() =>
+      axiosInstance.post("/auth/forgot-password", requestData)
+    )
+  );
+
+  return { ...mutation };
+};
+
+export const useResetPassword = () => {
+  const { handleRequest } = useApi();
+
+  const mutation = useMutation(
+    (requestData: {
+      token: string;
+      password: string;
+      confirmPassword: string;
+    }) =>
+      handleRequest(() =>
+        axiosInstance.post(`/auth/reset-password`, requestData)
+      )
   );
 
   return { ...mutation };

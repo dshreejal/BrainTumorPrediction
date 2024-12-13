@@ -59,6 +59,14 @@ const LoginPage: FC<LoginPageProps> = ({}) => {
               Sign up
             </Link>
           </div>
+          <div className="text-sm text-center text-gray-600">
+            <Link
+              to="/forgot-password"
+              className="text-purple-600 hover:underline"
+            >
+              Forgot password?
+            </Link>
+          </div>
         </CardFooter>
       </Card>
     </main>
