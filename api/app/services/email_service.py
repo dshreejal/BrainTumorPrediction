@@ -14,16 +14,22 @@ class EmailService:
 
     @staticmethod
     def send_password_reset_email(user):
-        token = EmailService.generate_token(user.email)
+        try:
+            token = EmailService.generate_token(user.email)
+            
+            reset_url = f"{EmailService.fe_url}/reset-password?token={token}"
+
+            html_content = render_template('emails/password_reset.html', reset_url=reset_url, user=user)
+
+            msg = Message('Password Reset Request From Tumor Insight',
+                        recipients=[user.email],
+                        html=html_content)
+            mail.send(msg)
+            print(f"Email sent to {user.email}")
         
-        reset_url = f"{EmailService.fe_url}/reset-password?token={token}"
-
-        html_content = render_template('emails/password_reset.html', reset_url=reset_url)
-
-        msg = Message('Password Reset Request',
-                      recipients=[user.email],
-                      html=html_content)
-        mail.send(msg)
+        except Exception as e:
+            print("Error sending mail", e)
+            raise ValueError(f"Error sending mail. Please try again later")
 
     @staticmethod
     def send_welcome_email(user):
@@ -35,11 +41,12 @@ class EmailService:
             
             html_content = render_template('emails/welcome_email.html', setup_url=setup_url, user=user)
             
-            msg = Message('Setup Your Password',
+            msg = Message('Setup Your Password On Tumor Insight',
                         recipients=[user.email],
                         html=html_content
                         )
             mail.send(msg)
+            print(f"Email sent to {user.email}")
         except Exception as e:
             print("Error sending mail", e)
             raise ValueError(f"Error sending mail. Please try again later")
