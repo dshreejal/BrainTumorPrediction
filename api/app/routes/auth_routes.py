@@ -23,14 +23,18 @@ def get_user():
 def logout():
     return AuthController().logout()
 
-@auth_bp.route('/setup_password/<token>', methods=['POST'])
-def setup_password(token):
-    return AuthController.setup_password(token)
+@auth_bp.route('/verify-token', methods=['POST'])
+def verify_token():
+    return AuthController().verify_token()
+
+@auth_bp.route('/setup-password', methods=['POST'])
+def setup_password():
+    return AuthController.setup_password()
 
 @auth_bp.route('/forgot-password', methods=['POST'])
 def forgot_password():
     return AuthController.forgot_password()
 
-@auth_bp.route('/reset-password/<token>', methods=['POST'])
-def reset_password(token):
-    return AuthController.reset_password(token)
+@auth_bp.route('/reset-password', methods=['POST'])
+def reset_password():
+    return AuthController.reset_password()

@@ -77,20 +77,37 @@ class AuthController:
         return response
     
     @staticmethod
-    def setup_password(token):
+    def verify_token():
+        data = request.get_json()
+        token = data.get('token')
+        data = EmailService.verify_token(token)
+        if data:
+            return jsonify({"message": "Token is valid"}), 200
+        return jsonify({"error": "Invalid or expired token"}), 400
+    
+    @staticmethod
+    def setup_password():
+        data = request.get_json()
+        token = data.get('token')
         email = EmailService.verify_token(token)
         if not email:
             return jsonify({"error": "Invalid or expired token"}), 400
 
-        data = request.get_json()
+        
         password = data.get('password')
-        if not password:
+        confirmPassword = data.get('confirmPassword')
+        if not password or not confirmPassword:
             return jsonify({"error": "Password is required"}), 400
+        
+        if password != confirmPassword:
+            return jsonify({"error": "Passwords do not match"}), 400
         
         # the password should contain at least 8 characters, a capital letter, a number and a special character either !@#$&
         if not any(char.isupper() for char in password) or not any(char.isdigit() for char in password) or not any(char in "!@#$&" for char in password) or len(password) < 8:
             return jsonify({"error": "Password must contain at least 8 characters, a capital letter, a number and a special character (!@#$&)"}), 400
         
+        if(AuthService.verifyUserPasswordExists(email)):
+            return jsonify({"error": "Password already set"}), 400
         
         user = User.query.filter_by(email=email).first()
         if user:
@@ -115,18 +132,19 @@ class AuthController:
         return jsonify({"error": "User not found"}), 404
     
     @staticmethod
-    def reset_password(token):
+    def reset_password():
+        data = request.get_json()
+        token = data.get('token')
         email = EmailService.verify_token(token)
         if not email:
             return jsonify({"error": "Invalid or expired token"}), 400
 
         # Allow the user to set a new password
-        data = request.get_json()
-        password = data.get('password')
         
         data = request.get_json()
         password = data.get('password')
-        if not password:
+        confirmPassword = data.get('confirmPassword')
+        if not password or not confirmPassword:
             return jsonify({"error": "Password is required"}), 400
         
         # the password should contain at least 8 characters, a capital letter, a number and a special character either !@#$&

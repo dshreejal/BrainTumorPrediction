@@ -66,3 +66,10 @@ class AuthService:
             print(f"User with email {email} deleted. Error occured during sending email")
             return True
         return False
+    
+    @staticmethod
+    def verifyUserPasswordExists(email):
+        user = User.query.filter_by(email=email).first()
+        if user and user.password_hash:
+            return True
+        return False
