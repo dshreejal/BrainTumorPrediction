@@ -4,6 +4,22 @@ import { useApi } from "../useApi";
 import toast from "react-hot-toast";
 import * as storage from "@/utils/storage";
 
+export const useRegisterUser = () => {
+  const { handleRequest } = useApi();
+
+  const mutation = useMutation(
+    (requestData: { email: string }) =>
+      handleRequest(() => axiosInstance.post("/auth/register", requestData)),
+    {
+      onSuccess: () => {
+        toast.success("Registration successful");
+      },
+    }
+  );
+
+  return { ...mutation };
+};
+
 export const useLoginUser = () => {
   const { handleRequest } = useApi();
   const queryClient = useQueryClient();

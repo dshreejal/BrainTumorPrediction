@@ -6,6 +6,7 @@ import { Navigate, Outlet } from "react-router-dom";
 
 import { useAuth } from "@/hooks/useAuth";
 import PredictPage from "@/pages/Predict";
+import RegisterPage from "@/pages/Register";
 
 const ProtectedRoute = ({ children }: { children: React.JSX.Element }) => {
   const isAuthenticated = useAuth();
@@ -42,6 +43,14 @@ export const publicRoutes = [
         element: (
           <ProtectedRoute>
             <LoginPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: PUBLIC_ROUTES.REGISTER,
+        element: (
+          <ProtectedRoute>
+            <RegisterPage />
           </ProtectedRoute>
         ),
       },

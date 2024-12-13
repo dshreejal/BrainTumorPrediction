@@ -9,8 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { UserIcon, StethoscopeIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import LoginForm from "@/components/login/LoginForm";
@@ -57,7 +55,7 @@ const LoginPage: FC<LoginPageProps> = ({}) => {
         <CardFooter className="flex flex-col space-y-4">
           <div className="text-sm text-center text-gray-600">
             Don't have an account?{" "}
-            <Link to="/signup" className="text-purple-600 hover:underline">
+            <Link to="/register" className="text-purple-600 hover:underline">
               Sign up
             </Link>
           </div>
