@@ -1,17 +1,91 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Setup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            color: #7E22CE;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #7E22CE;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        a[href] {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .social-links img {
+            width: 24px;
+            margin: 0 10px;
+            vertical-align: middle;
+        }
+
+        .social-links a {
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
-    <h2>Hello {{ user.email }}</h2>
-    <p>Thank you for registering with us! To set up your password, click the link below:</p>
-    <p><a href="{{ setup_url }}" target="_blank">Set up your password</a></p>
-    <p>This link will expire in 24 hours.</p>
+    <div class="container">
+        <div class="header">
+            <h2>Tumor Insight</h2>
+        </div>
+        <p>Hello {{ user.email }},</p>
+        <p>Thank you for registering with us! To set up your password, click the button below:</p>
+        <p><a href="{{ setup_url }}" class="button" target="_blank">Set Up Your Password</a></p>
+        <p>This link will expire in 24 hours.</p>
+
+        <div class="footer">
+            <p>Follow us on:</p>
+            <div class="social-links">
+                <a href="https://facebook.com" target="_blank"><img
+                        src="https://img.icons8.com/color/48/000000/facebook-new.png" alt="Facebook"></a>
+                <a href="https://linkedin.com" target="_blank"><img
+                        src="https://img.icons8.com/color/48/000000/linkedin.png" alt="LinkedIn"></a>
+                <a href="https://instagram.com" target="_blank"><img
+                        src="https://img.icons8.com/color/48/000000/instagram-new.png" alt="Instagram"></a>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
