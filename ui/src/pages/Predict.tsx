@@ -24,6 +24,8 @@ import { usePredict } from "@/hooks/query/usePredict";
 import toast from "react-hot-toast";
 import { useAuth } from "@/hooks/useAuth";
 import ReportDialog from "@/components/predict/ReportDialog";
+import DoctorsListDialog from "@/components/predict/DoctorsListDialog";
+import HospitalsListDialog from "@/components/predict/HospitalsListDialog";
 
 interface PredictPageProps {}
 
@@ -187,7 +189,7 @@ const PredictPage: FC<PredictPageProps> = () => {
                     <span className="font-medium">VGG16</span>
                   </div>
                   <span className="text-sm text-muted-foreground">
-                    Accuracy: 97.8%
+                    Accuracy: 94%
                   </span>
                 </Label>
               </div>
@@ -199,7 +201,7 @@ const PredictPage: FC<PredictPageProps> = () => {
                     <span className="font-medium">ResNet50</span>
                   </div>
                   <span className="text-sm text-muted-foreground">
-                    Accuracy: 98.2%
+                    Accuracy: 91%
                   </span>
                 </Label>
               </div>
@@ -232,6 +234,11 @@ const PredictPage: FC<PredictPageProps> = () => {
                       selectedModel={selectedModel}
                     />
                   )}
+                </div>
+                <div className="mx-2">
+                  <DoctorsListDialog />
+
+                  <HospitalsListDialog />
                 </div>
               </Card>
             )}

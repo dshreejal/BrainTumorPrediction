@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "name": "Dr. Sagar Koirala",
+    "nmcNumber": "10527",
+    "specialization": "MBBS, MS, MCH-Neurosurgery",
+    "details": "Dr. Koirala has done his MBBS from Maharajgunj Medical Campus/ Tribhuvan University Teaching Hospital. He has done Master in Science from Institute of Medicine, MCH from KU.",
+    "rating": 5,
+    "image": "https://image.hamropatro.com/insecure/rs:fill:200:200/g:no/aHR0cHM6Ly9ldmVyZXN0ZGIuc2dwMS5jZG4uZGlnaXRhbG9jZWFuc3BhY2VzLmNvbS9wYXJld2EvY29uc3VsdGFudC9kNzlmMjg2Ny1hYTk5LTRkNzUtYTkwZS1kOTgwNjA2NWNiMjA.webp"
+  },
+  {
+    "id": 2,
+    "name": "Dr. Rajeev Bhandari",
+    "nmcNumber": "9471",
+    "specialization": "MBBS ,MS General Surgery,MCh Neurosurgery",
+    "details": "Dr. Bhandari completed MBBS from Southwest Medical University PR China in 2009. He has done MS in General Surgery in 2015. Dr. Bhandari has done MCH in Neurosurgery from NAMS, Bir Hospital, and a 2019 World Federation of Neurosurgical Societies, Clinical Fellowship from the National Neuroscience Institue, Singapore. Currently, He is working at Lumbini Provincial hospital, performing various surgery in Neuro Spine issues, handling emergencies and outpatient department patients.",
+    "rating": 5,
+    "image": "https://image.hamropatro.com/insecure/rs:fill:200:200/g:no/aHR0cHM6Ly9ldmVyZXN0ZGIuc2dwMS5jZG4uZGlnaXRhbG9jZWFuc3BhY2VzLmNvbS9wYXJld2EvY29uc3VsdGFudC82MDBiNDkzMS1mODc3LTQxZTktYmYwZi0zNTQ3NTU4Y2M2NGU.webp"
+  },
+  {
+    "id": 3,
+    "name": "Dr. Prasanna Karki",
+    "nmcNumber": "8790",
+    "specialization": "MD, PhD (Neurosurgery), Fellowship- Neurointerventional Surgery",
+    "details": "Dr. Prasanna Karki is a board-certified Neurosurgeon and Neurointerventionist of Nepal. She has been practicing as Neurosurgeon for the last 7 years. She completed her M.B.B.S from Nepal Medical College in 2009, and pursued her 5 years of Neurosurgery training in Japan (Kagoshima University) from 2010 to 2015. Dr. Prasanna completed her one-year fellowship in neurointerventional surgery at Siriraj Hospital, Mahidol University in 2022. She worked as a Neurosurgeon at Annapurna Neuro Hospital in 2015 and as a Neurosurgeon/ lecturer in Nepalgunj Medical College from 2016- 2018. She is currently working as a Neurointerventional Neurosurgeon at Nepal Mediciti Hospital. Dr. Prasanna's neurosurgical expertise includes open and noninvasive treatment of cerebrovascular disorders (aneurysms, arteriovenous malformations, cavernous malformations, and stroke) and skull base tumors. She is a member of the Nepal Society of Neurosurgeons, Congress of Neurological Surgeons, Japan Neurosurgical society, The European Association of Neurosurgical Societies, Sectional membership of Functional Neurosurgery, and the World Federation Of Neurosurgery. Dr. Prasanna has more than 27 publications with multiple honors/ awards and has presented her work on an international platform.",
+    "rating": 5,
+    "image": "https://image.hamropatro.com/insecure/rs:fill:200:200/g:no/aHR0cHM6Ly9ldmVyZXN0ZGIuc2dwMS5jZG4uZGlnaXRhbG9jZWFuc3BhY2VzLmNvbS9wYXJld2EvY29uc3VsdGFudC9jNDVkNmFkOS02M2M0LTRmYWMtODVlNS1hZmU2OWYzM2Q3Mzc.webp"
+  },
+  {
+    "id": 4,
+    "name": "Dr. Pradhumna Kumar Yadav",
+    "nmcNumber": "13146",
+    "specialization": "MBBS, MS (Neurosurgery)",
+    "details": "Dr. Pradhumna Kumar Yadav has completed MBBS from well renowned Medical College, Sir Salimullah Medical College, Bangladesh, and his master's degree in Neurosurgery from Pakistan Institute of Medical Science, Pakistan. Currently, he is working as a consultant Neurosurgeon at National Trauma Center, Kathmandu",
+    "rating": 5,
+    "image": "https://image.hamropatro.com/insecure/rs:fill:200:200/g:no/aHR0cHM6Ly9ldmVyZXN0ZGIuc2dwMS5jZG4uZGlnaXRhbG9jZWFuc3BhY2VzLmNvbS9wYXJld2EvY29uc3VsdGFudC80OTcxYjY3YS1hODMzLTQ3ZjAtYTYyZC05MzVmMzdlZTExM2I.webp"
+  },
+  {
+    "id": 5,
+    "name": "Dr. Roshan Khatiwada",
+    "nmcNumber": "8369",
+    "specialization": "MBBS , MS General Surgery , MCH Neurosurgery",
+    "details": "Dr. Khatiwada has been practicing Consultant Neurosurgeon working in the field of brain and spine surgery involving trauma, tumor, and vascular pathology. He has done MBBS from BPKIHS in 2009, MS in general surgery from IOM TUTH in 2014, and MCH in Neurosurgery in 2020 from Bir Hospital NAMS. He has 3 years of experience in General Surgery and 2.5 years of experience in Neurosurgery.",
+    "rating": 5,
+    "image": "https://image.hamropatro.com/insecure/rs:fill:200:200/g:no/aHR0cHM6Ly9ldmVyZXN0ZGIuc2dwMS5jZG4uZGlnaXRhbG9jZWFuc3BhY2VzLmNvbS9wYXJld2EvY29uc3VsdGFudC8wMzVjYTRmMi1mN2E0LTRlYzAtODEwZi00NWQ1MDE0YzllNjc.webp"
+  }
+]
