@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Upendra Devkota Memorial National Institute of Neurological and Allied Sciences",
+    "location": "Kathmandu",
+    "contact": "+977-1-4379010",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4A4wyPJZ3nYdP8M76qJQbTCj2hAspXylExA&s"
+  },
+  {
+    "id": 2,
+    "name": "Annapurna Neurological Institute and Allied Sciences",
+    "location": "Maitighar, Kathmandu",
+    "contact": "+977-1-4256568",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZU3q8QtCiJdVtMB3A9s0N7LVcIj2Y3LyI6Q&s"
+  }
+]
