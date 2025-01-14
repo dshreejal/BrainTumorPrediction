@@ -1,16 +1,16 @@
-import React, { FC } from "react";
+import { FC } from "react";
 
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
+  // DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "../ui/scroll-area";
+// import { ScrollArea } from "../ui/scroll-area";
 interface ReportDialogProps {
   predictionGraph: string | null;
   selectedModel: string;
@@ -20,19 +20,17 @@ const ReportDialog: FC<ReportDialogProps> = ({
   predictionGraph,
   selectedModel,
 }) => {
-  console.log(selectedModel);
-
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="link">View Prediction Report</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] lg:max-w-[800px]">
+      <DialogContent className="sm:max-w-[425px] lg:max-w-[800px] xl:max-w-[1400px]">
         <DialogHeader>
           <DialogTitle>Report</DialogTitle>
         </DialogHeader>
 
-        <DialogDescription className="max-h-[400px] overflow-auto flex flex-col gap-8">
+        <DialogDescription className="max-h-[800px] overflow-auto flex flex-col gap-8">
           <div>
             <h3 className="text-sm [&_p]:leading-relaxed font-bold">
               Prediction Probability
