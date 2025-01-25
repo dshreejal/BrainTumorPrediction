@@ -10,6 +10,7 @@ import RegisterPage from "@/pages/Register";
 import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
 import SetupPassword from "@/pages/SetupPassword";
+import AboutPage from "@/pages/About";
 
 const ProtectedRoute = ({ children }: { children: React.JSX.Element }) => {
   const isAuthenticated = useAuth();
@@ -40,6 +41,10 @@ export const publicRoutes = [
       {
         path: PUBLIC_ROUTES.INDEX,
         element: <HomePage />,
+      },
+      {
+        path: PUBLIC_ROUTES.ABOUT,
+        element: <AboutPage />,
       },
       {
         path: PUBLIC_ROUTES.LOGIN,
