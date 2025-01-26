@@ -1,13 +1,10 @@
-import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { BrainCircuit } from "lucide-react";
+import { BrainIcon } from "lucide-react";
 import { footerNavItems } from "./navItem";
-import { FaFacebookF, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaFacebookF, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
-interface FooterProps {}
-
-const Footer: FC<FooterProps> = () => {
+const Footer = () => {
   const location = useLocation();
 
   return (
@@ -17,7 +14,7 @@ const Footer: FC<FooterProps> = () => {
           {/* Brand Section */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <BrainCircuit className="w-6 h-6 text-purple-600" />
+              <BrainIcon className="w-6 h-6 text-purple-600" />
               <h3 className="text-xl font-bold">Tumor Insight</h3>
             </div>
             <p className="text-sm text-muted-foreground">
