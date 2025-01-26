@@ -189,7 +189,7 @@ const PredictPage: FC<PredictPageProps> = () => {
                     <span className="font-medium">VGG16</span>
                   </div>
                   <span className="text-sm text-muted-foreground">
-                    Accuracy: 94%
+                    Accuracy: 93.60%
                   </span>
                 </Label>
               </div>
@@ -201,7 +201,7 @@ const PredictPage: FC<PredictPageProps> = () => {
                     <span className="font-medium">ResNet50</span>
                   </div>
                   <span className="text-sm text-muted-foreground">
-                    Accuracy: 91%
+                    Accuracy: 91.31%
                   </span>
                 </Label>
               </div>
