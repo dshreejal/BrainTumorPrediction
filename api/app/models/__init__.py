@@ -2,6 +2,7 @@ import uuid
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import DateTime, func, Integer
 from flask_sqlalchemy import SQLAlchemy
+from flask import  current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 import pytz
 import os
@@ -16,7 +17,7 @@ class User(db.Model):
     password_hash = db.Column(db.Text, nullable=True)
     created_at = db.Column(DateTime(timezone=True), server_default=func.now())
     updated_at = db.Column(DateTime(timezone=True), onupdate=func.now())
-    predictions_remaining = db.Column(Integer, nullable=False, default=(os.getenv('LOGGED_IN_USER_DEFAULT_PREDICTIONS', 5))) # Number of predictions remaining
+    predictions_remaining = db.Column(Integer, nullable=False, default=(int(os.getenv('LOGGED_IN_USER_DEFAULT_PREDICTIONS', 5)))) # Number of predictions remaining
     limit_reached_at = db.Column(DateTime(timezone=True), nullable=True)   # Timestamp of when the limit was reached
 
     def set_password(self, password):
@@ -29,7 +30,8 @@ class User(db.Model):
 
     def reset_predictions(self):
         """Resets the user's prediction count and clears the limit reached timestamp."""
-        self.predictions_remaining = int(os.getenv('LOGGED_IN_USER_DEFAULT_PREDICTIONS', 5))
+        loggedInUserPredictionLimit = current_app.config['LOGGED_IN_USER_DEFAULT_PREDICTIONS']
+        self.predictions_remaining = int(loggedInUserPredictionLimit)
         self.limit_reached_at = None
 
     def update_limit_reached(self, current_time):

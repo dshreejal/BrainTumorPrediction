@@ -17,6 +17,8 @@ import { BiLoaderAlt } from "react-icons/bi";
 import { useRegisterUser } from "@/hooks/query/useAuthentication";
 import toast from "react-hot-toast";
 import { CiMail } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
+import { PUBLIC_ROUTES } from "@/constants/routes";
 
 const formSchema = z.object({
   email: z
@@ -31,6 +33,7 @@ const formSchema = z.object({
 interface RegisterFormProps {}
 
 const RegisterForm: FC<RegisterFormProps> = () => {
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,6 +47,7 @@ const RegisterForm: FC<RegisterFormProps> = () => {
     try {
       const res = await registerUser({ ...formData });
       toast.success(res?.data?.message);
+      await navigate(PUBLIC_ROUTES.INDEX);
     } catch (error: any) {
       console.log(error);
 
