@@ -68,7 +68,8 @@ class PredictController:
             return jsonify({'message': 'Model has not been selected'}), 400
         
         try:
-            prediction_result, base64_image = PredictService.predict(file, model_name, user_id)
+            predict_service = PredictService()
+            prediction_result, base64_image = predict_service.predict(file, model_name)
         except ValueError as e:
             return jsonify({'message': str(e)}), 400
                         

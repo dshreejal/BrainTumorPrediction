@@ -1,8 +1,9 @@
 from PIL import Image
 from app.helpers.logger import get_logger
+from app.services.openCV_service import OpenCVImageValidator, OpenCVImageValidatorRefined
 from tensorflow.keras.models import load_model
 import numpy as np
-from flask import jsonify, send_from_directory, current_app
+from flask import  current_app
 import os
 import matplotlib.pyplot as plt
 import matplotlib
@@ -10,7 +11,6 @@ import io
 from app.models import User, db
 import base64
 from datetime import datetime
-import pytz
 
 matplotlib.use('Agg')
 
@@ -21,12 +21,25 @@ logger = get_logger("controller")
 class_dict = ['glioma', 'meningioma', 'notumor', 'pituitary']
 
 class PredictService:
-    @staticmethod
-    def predict( img_path, model_name, user_id):
+    
+    def __init__(self):        
+        # self.image_validator = OpenCVImageValidator()
+        self.image_validator = OpenCVImageValidatorRefined()
+        
+    def predict(self,img_path, model_name):
         
         # check if the model name belong to one of vgg16, resnet50
         if model_name not in ['vgg16', 'resnet50']:
             raise ValueError('Invalid model name')
+        
+        print('Validate if image is MRI', current_app.config['CHECK_IS_MRI_IMAGE'])
+        if current_app.config['CHECK_IS_MRI_IMAGE']:
+            validation_result = self.is_valid_medical_image(img_path)
+            print('validation_result', validation_result)
+            if not validation_result['is_valid']:
+                # Log the detailed validation results
+                logger.warning(f"Image validation failed: {validation_result}")
+                raise ValueError('System only accepts MRI images')
         
         loaded_model = None
         
@@ -97,10 +110,7 @@ class PredictService:
         return predicted_label, image_base64
     
     @staticmethod
-    def checkLoggedInUserPredictionLimit( user_id):
-        # utc = pytz.utc
-        # current_time = datetime.now().replace(tzinfo=utc)
-        
+    def checkLoggedInUserPredictionLimit( user_id):        
         user = User.query.filter_by(id=user_id).first()
         
         if not user:
@@ -119,3 +129,16 @@ class PredictService:
         db.session.commit()
                 
         
+    def is_valid_medical_image(self, file):
+        # Save file temporarily to validate
+        temp_path = os.path.join(current_app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(temp_path)
+        print('path', temp_path)
+        try:            
+             # Validate using OpenCV
+            validation_result = self.image_validator.validate_medical_image(temp_path)
+            return validation_result
+        finally:
+            # Clean up temporary file
+            os.remove(temp_path)
+            print('temp_path', temp_path)
