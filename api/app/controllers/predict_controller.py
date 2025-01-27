@@ -1,6 +1,6 @@
 from app.helpers.logger import get_logger
 from datetime import datetime
-from flask import jsonify, request,send_from_directory, current_app, Response
+from flask import jsonify, request,send_from_directory, current_app
 from app import app
 import os
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -41,7 +41,8 @@ class PredictController:
                 user_data["count"] = 0
 
             # Check if the user exceeded their limit
-            if user_data["count"] >= 3:
+            nonLoggedInUserPredictionLimit = current_app.config['NON_LOGGED_IN_USER_PREDICTION_LIMIT']
+            if user_data["count"] >= int(nonLoggedInUserPredictionLimit):
                 return jsonify({'message': 'You have reached the daily prediction limit. Please log in for more predictions.'}), 400
 
             # Increment prediction count
@@ -68,7 +69,8 @@ class PredictController:
             return jsonify({'message': 'Model has not been selected'}), 400
         
         try:
-            prediction_result, base64_image = PredictService.predict(file, model_name, user_id)
+            predict_service = PredictService()
+            prediction_result, base64_image = predict_service.predict(file, model_name)
         except ValueError as e:
             return jsonify({'message': str(e)}), 400
                         

@@ -22,15 +22,15 @@ import { useNavigate } from "react-router-dom";
 import { PUBLIC_ROUTES } from "@/constants/routes";
 
 const symbolRegex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 const passwordValidator = (password: string) => {
-  const hasUppercase = /[A-Z]/.test(password);
-  const hasDigit = /\d/.test(password);
-  const hasSymbol = symbolRegex.test(password);
-  const isLengthValid = password.length >= 8 && password.length <= 50;
+  const hasUppercase = /[A-Z]/.test(password); // Check for at least one uppercase letter
+  const hasDigit = /\d/.test(password); // Check for at least one digit
+  const hasSpecialChar = /[!@#$&]/.test(password); // Check for at least one special character (!@#$&)
+  const isLengthValid = password.length >= 8; // Ensure password is at least 8 characters long
 
-  return hasUppercase && hasDigit && hasSymbol && isLengthValid;
+  return hasUppercase && hasDigit && hasSpecialChar && isLengthValid;
 };
 
 const formSchema = z
